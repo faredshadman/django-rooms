@@ -1,52 +1,45 @@
 {% extends 'layout.html' %} {% block content%}
-<style>
-    .home-container{
-        display: grid;
-        grid-template-columns:1fr 3fr;
-    } 
-</style>
+<main class="layout layout--3">
+  <div class="container">
+    <!-- Topics Start -->
+    <div>{% include 'base/topics_component.html' %}</div>
+    <!-- Topics End -->
 
-<div class='home-container'>
-    <div class='sidebar'>
-        <h3>Browse Topics</h3>
-        <hr/>
-        <div>
-            <a href="{% url 'home' %}">
-                All
-            </a>
-        </div>
-        {% for topic in topics %}
-        <div>
-            <a href="{% url 'home' %}?q={{topic.name}}">
-                {{topic.name}}
-            </a>
-        </div>
+    <!-- Room List Start -->
 
-        {% endfor %}
-    </div>
-    <div class='content'>
-        <h5>{{room_count}} rooms available</h5>
-        <a href="{% url 'create-room' %}">Create Room</a>
-        <hr/>
+    <div class="roomList">
+      <div class="roomList__header">
         <div>
-            {% for room in rooms %}
-            <div>
-                {% if request.user == room.host %}
-                <a href="{% url 'update-room' room.id %}">Edit</a>
-                <a href="{% url 'delete-room' room.id %}">Delete</a>
-                {% endif %}
-                <span>@{{room.host.username}}</span>
-                <h5>{{room.id}}-
-                    <a href="{% url 'room' room.id %}">
-                        {{room.name}}
-                    </a>
-                </h5>
-                <small>{{room.topic.name}}</small>
-                <hr/>
-            </div>
-            {% endfor %}
+          <h2>Study Room</h2>
+          <p>7,439 Rooms available</p>
         </div>
+        <a
+          href="{% url 'create-room' %}"
+          class="btn btn--main"
+          href="create-room.html"
+        >
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+          >
+            <title>add</title>
+            <path
+              d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
+            ></path>
+          </svg>
+          Create Room
+        </a>
+      </div>
+      {% include 'base/feed_component.html' %}
     </div>
-</div>    
-    
-    {% endblock content %}</div>
+    <!-- Room List End -->
+
+    <!-- Activities Start -->
+    {% include 'base/activity_component.html' %}
+    <!-- Activities End -->
+  </div>
+</main>
+{% endblock content %}
